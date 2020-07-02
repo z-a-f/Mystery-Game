@@ -5,7 +5,7 @@ Neither are the controls.
 The only thing that is known is that the game is controlled using numbers 1 through 6.
 
 | Key | Action |
-|:===:|:=====:|
+|:---:|:------:|
 | 1   | ???    |
 | 2   | ???    |
 | 3   | ???    |
