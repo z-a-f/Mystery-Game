@@ -49,3 +49,13 @@ def _teleport(world, tag, new_cell):
   world.canvas.coords(tag, updated_cell)
   world.objects[tag] = idd, obj, new_cell
   return True
+
+def tags_in_cell(world, cell):
+  top = cell[1] * world.kPointsPerGrid
+  left = cell[0] * world.kPointsPerGrid
+  bottom = top + world.kPointsPerGrid
+  right = left + world.kPointsPerGrid
+
+  ids = world.canvas.find_enclosed(left, top, right, bottom)
+  tags = [ world.canvas.gettags(i) for i in ids ]
+  return tags

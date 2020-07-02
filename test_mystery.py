@@ -1,3 +1,4 @@
+from mystery_game.agent import Agent
 from mystery_game.world import World
 from mystery_game.color import Color
 from mystery_game.movement import Direction, attach_UDLR_to_tags
@@ -11,10 +12,17 @@ world.add_hwall(10, 9, -5)
 world.add_hwall(3, 1, 3)
 world.add_hwall(0, 3, 7)
 
-red_box = world.add_box((0, 0), Color.R)
-green_box = world.add_box((4, 4), Color.G)
-diamond = world.add_diamond((5, 4), Color.M)
+# red_box = world.add_box((0, 0), Color.R)
+# green_box = world.add_box((4, 4), Color.G)
+# diamond = world.add_diamond((5, 4), Color.M)
+# circle = world.add_circle((6, 6), Color.R, offset_in=30)
 
+agent_name = 'agent'
+target_name = 'target'
+
+world.randomize(4, agent_name, target_name)
+agent = Agent(world)
+print(world.objects)
 
 # DEBUG WALLS
 for row in range(world.rows):
@@ -52,7 +60,9 @@ for cell1 in cells:
       pass
 # END DEBUG WALLS
 
-attach_UDLR_to_tags(world, [diamond, green_box], [5, 2, 1, 3])
+# tag_list = [agent_name]
+# attach_UDLR_to_tags(world, tag_list, [5, 2, 1, 3])
+
 # attach_UDLR_to_tags(world, ['box_G'], [5, 2, 1, 3])
 
 world.mainloop()

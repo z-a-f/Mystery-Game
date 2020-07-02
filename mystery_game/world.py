@@ -1,6 +1,8 @@
+import random
 import tkinter as tk
 
-from ._env_object_defs import _box, _diamond
+from .color import Color
+from ._env_object_defs import _box, _circle, _diamond
 from ._env_tag_defs import _move, _teleport
 from ._env_wall_defs import _wall, _vwall, _hwall
 from ._env_wall_defs import _adjacent_cells_walled
@@ -20,12 +22,18 @@ class World(tk.Tk):
     self.canvas.pack(fill=tk.BOTH, expand=True)
     self.canvas.bind('<Configure>', self._create_grid)
     self.resizable(0, 0)
+    self.score = 0
+    self.winfo_toplevel().title(f'Mystery Game... Score: {self.score:.2f}')
 
     self.vwalls = set()
     self.hwalls = set()
 
     # Save map from key -> (id, object type, cell location)
     self.objects = dict()
+
+    self.num_boxes = None
+    self.agent_name = None
+    self.target_name = None
 
   def _create_grid(self, event=None):
     self.canvas.delete('grid_line') # Will only remove the grid_line
@@ -37,6 +45,47 @@ class World(tk.Tk):
     # Creates all horizontal lines at intevals of 100
     for i in range(0, self.height, self.kPointsPerGrid):
         self.canvas.create_line([(0, i), (self.width, i)], tag='grid_line')
+
+  def update_score(self, value):
+    self.score += value
+    self.winfo_toplevel().title(f'Mystery Game... Score: {self.score}')
+
+  def clear_canvas(self):
+    for tag in self.objects.keys():
+      self.canvas.delete(tag)
+    self.objects = {}
+
+  def randomize(self, num_boxes=4, agent_name=None, target_name=None):
+    self.clear_canvas()
+    self.num_boxes = num_boxes
+    if (num_boxes + 2) > (self.rows * self.cols):
+      raise ValueError(f'Cannot initialize game with {num_boxes} boxes in a ' \
+                       f'grid of size {self.rows} x {self.cols}')
+    if num_boxes > len(Color):
+      raise ValueError(f'Cannot create {num_boxes} boxes, as I only have '\
+                       f'{len(Color)} colors')
+    if agent_name is not None:
+      self.agent_name = agent_name
+    if target_name is not None:
+      self.target_name = target_name
+    positions = list(range(self.rows * self.cols))
+    colors = list(Color)
+    random.shuffle(positions)
+    for idx in range(num_boxes):
+      row = positions[idx] // self.cols
+      col = positions[idx] % self.cols
+      self.add_box((row, col), colors[idx])
+    # Agent
+    row = positions[num_boxes] // self.cols
+    col = positions[num_boxes] % self.cols
+    self.add_diamond((row, col), 'gray', offset_in=5, tag=self.agent_name)
+    # Target
+    row = positions[num_boxes+1] // self.cols
+    col = positions[num_boxes+1] % self.cols
+
+    target_color_idx = random.randint(0, num_boxes-1)
+    self.add_circle((row, col), colors[target_color_idx], offset_in=25,
+                    tag=self.target_name)
 
   def add_wall(self, start_row, end_row, start_col, end_col):
     """Adds a wall given start and end coordinates.
@@ -90,6 +139,9 @@ class World(tk.Tk):
   def add_diamond(self, cell, color_obj, offset_in=5, tag=None):
     """Adds a diamond into a cell"""
     return _diamond(self, cell, color_obj, offset_in, tag)
+
+  def add_circle(self, cell, color_obj, offset_in=5, tag=None):
+    return _circle(self, cell, color_obj, offset_in, tag)
 
   def move(self, tag, direction):
     """Moves an object given its tag by one cell in a specified direction."""
