@@ -24,9 +24,9 @@ class Agent(object):
     self.reward = rewards
 
     for key in range(10):
-      self.setup_callback(key)
+      self._setup_callback(key)
 
-  def setup_callback(self, key):
+  def _setup_callback(self, key):
     def callback(event):
       for tag in list(self.movement_tags):
         self.action(tag, key)
