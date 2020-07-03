@@ -4,16 +4,20 @@ The game starts in a grid, but the goal of the game is not clear.
 Neither are the controls.
 The only thing that is known is that the game is controlled using numbers 1 through 6.
 
-| Key | Action |
-|:---:|:------:|
-| 1   | ???    |
-| 2   | ???    |
-| 3   | ???    |
-| 4   | ???    |
-| 5   | ???    |
-| 6   | ???    |
+## Rules
 
-![Mystery Game](imgs/game_3x3_init.png)
+1. **Goal:** Maximize the score
+2. **How to do that:** ???
+3. **Controls:**
+
+   | Key | Action |
+   |:---:|:------:|
+   | 1   | ???    |
+   | 2   | ???    |
+   | 3   | ???    |
+   | 4   | ???    |
+   | 5   | ???    |
+   | 6   | ???    |
 
 ## Simple game
 
@@ -30,6 +34,10 @@ python ./game.py --grid-size 5x5 --vwalls 0x2x3 5x4x-4 --hwalls 4x0x2 2x0x1
 creates a world:
 
 ![5x5 world with walls](imgs/game_5x5_walls.png)
+
+## Reinforcement Learning Use
+
+For RL use, send values to `agent.Agent.action` method to control the agent in the environment.
 
 ## Brief API
 
