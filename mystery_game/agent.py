@@ -93,6 +93,8 @@ class Agent(object):
         agent_location = tuple(self.world.objects[self.name][2])
         target_location = tuple(self.world.objects[self.target][2])
       except:
+        print('[WARN] Something went wrong!', end=' ')
+        print('Cowardly refusing to fail, but here are all the objects:')
         print(self.world.objects)
       if agent_location == target_location:
         self.movement_tags.add(self.target)
