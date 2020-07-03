@@ -16,8 +16,8 @@ def parse_args():
 
   parser = argparse.ArgumentParser(
     description='Mystery Game, rules unknown, control using numbers 1-6')
-  parser.add_argument('--grid-size', metavar='ROWSxCOLS', type=str, nargs=1,
-                      default='4x4', help='Number of rows and columns')
+  parser.add_argument('--grid-size', metavar='ROWSxCOLS', nargs=1,
+                      default=['4x4'], help='Number of rows and columns')
   parser.add_argument(
     '--vwalls', metavar='ROWxCOLxLENGTH', default=None, nargs='*',
     help='Put a vertical wall(s) at ROW, COL, and of length LENGTH')
