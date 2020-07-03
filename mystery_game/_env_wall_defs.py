@@ -1,3 +1,4 @@
+"""Definitions for the wall generation."""
 
 def _wall(world, start_row, end_row, start_col, end_col, width=5,
               tag='wall'):
@@ -23,7 +24,7 @@ def _wall(world, start_row, end_row, start_col, end_col, width=5,
   return world.canvas.create_line([(start_col, start_row), (end_col, end_row)],
                                   width=width, tags=tag)
 
-def _vwall(world, col, row, length):
+def _vwall(world, row, col, length):
   start_row = row
   start_col = col
   end_row = start_row + length
@@ -37,7 +38,7 @@ def _vwall(world, col, row, length):
 
   return world.add_wall(start_row, end_row, start_col, end_col)
 
-def _hwall(world, col, row, length):
+def _hwall(world, row, col, length):
   start_row = row
   start_col = col
   end_row = start_row

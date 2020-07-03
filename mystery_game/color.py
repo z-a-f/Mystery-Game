@@ -1,6 +1,7 @@
 from enum import Enum
 
 class Color(Enum):
+  """List of usable colors."""
   R = 0xe53935
   G = 0x43a047
   B = 0x1e88e5
@@ -16,4 +17,5 @@ class Color(Enum):
   MAGENTA = 0xea80fc
 
   def to_hash(self):
+    """Converts the numeric color to #rrggbb representation."""
     return f'#{hex(self.value)[2:]:0>6}'

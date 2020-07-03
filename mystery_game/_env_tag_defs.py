@@ -1,3 +1,5 @@
+"""Definitions for manipulating the tags."""
+
 from .movement import Direction
 
 def _move(world, tag, direction):

@@ -28,8 +28,7 @@ class Agent(object):
 
   def _setup_callback(self, key):
     def callback(event):
-      for tag in list(self.movement_tags):
-        self.action(tag, key)
+      self.action(key)
     key = str(key)
     self.world.bind(key, callback)
     self.world.bind(f'<KP_{key}>', callback)
@@ -42,7 +41,19 @@ class Agent(object):
     box_location = tuple(self.world.objects[box_name][2])
     return box_location == tuple(target_info[2])
 
-  def action(self, tag, value):
+  def action(self, value):
+    reward = 0
+    won = False
+    for tag in list(self.movement_tags):
+      tag_reward, tag_won = self.action_on_tag(tag, value)
+      if tag == self.name:
+        reward =tag_reward
+        won = tag_won
+    self.world.update_score(reward)
+    if won:
+      self.world.randomize()
+
+  def action_on_tag(self, tag, value):
     won = False
     value = int(value)
     if value == 1:
@@ -82,7 +93,4 @@ class Agent(object):
         reward = self.reward['drop_no_target']
     else:
       reward = self.reward['wrong_action']
-    self.world.update_score(reward)
-    if won:
-      self.world.randomize()
-    return reward
+    return reward, won

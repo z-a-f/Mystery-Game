@@ -1,3 +1,5 @@
+"""Definitions for the objects."""
+
 from .color import Color
 
 def __header(world, cell, color, tag, tag_prefix):

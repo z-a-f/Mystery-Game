@@ -10,9 +10,44 @@ from ._env_wall_defs import _is_hwall_between, _is_vwall_between
 
 
 class World(tk.Tk):
+  """Class for the world.
+
+  Class members:
+    kPointsPerGrid: Number of points per grid width/height
+    kWindowTitle: Title of the Tk window
+
+  Instance members:
+    rows: Number of rows in the grid
+    cols: Number of columns in the grid
+    height: Canvas height in points
+    width: Canvas width in points
+    canvas: Tk.Canvas object
+
+    score: Current score
+
+    vwalls: All vertical wall objects (Tk widgets)
+    hwalls: All horizontal wall objects (Tk widgets)
+    objects: All non-wall objects (Tk widgets).
+             Currently these are supported:
+             - Boxes (with tag 'box')
+             - Diamonds (with tag 'diamond')
+             - Circles (with tag 'circle')
+
+    num_boxes: Number of colored boxes added to the world.
+               Currently updated using the `randomize` method only
+    agent_name: Tag of the agent that was added to this world
+    target_name: Tag of the target that was added to this world
+  """
   kPointsPerGrid = 100
+  kWindowTitle = 'Mystery Game'
 
   def __init__(self, h, w, bg='white'):
+    """Entry point for the world generation.
+
+    Args:
+      h, w: Height and width of the canvas in number of cells
+      bg: Background colorof the canvas
+    """
     super(World, self).__init__()
     self.rows = w
     self.cols = h
@@ -23,7 +58,7 @@ class World(tk.Tk):
     self.canvas.bind('<Configure>', self._create_grid)
     self.resizable(0, 0)
     self.score = 0
-    self.winfo_toplevel().title(f'Mystery Game... Score: {self.score:.2f}')
+    self.update_score(0)
 
     self.vwalls = set()
     self.hwalls = set()
@@ -47,17 +82,29 @@ class World(tk.Tk):
         self.canvas.create_line([(0, i), (self.width, i)], tag='grid_line')
 
   def update_score(self, value):
+    """Sets the score in the title"""
     self.score += value
-    self.winfo_toplevel().title(f'Mystery Game... Score: {self.score}')
+    self.winfo_toplevel().title(f'{self.kWindowTitle}... Score: {self.score}')
 
   def clear_canvas(self):
+    """Clears the canvase (except grid) and resets the `self.objects`."""
     for tag in self.objects.keys():
       self.canvas.delete(tag)
     self.objects = {}
+    self.num_boxes = 0
 
   def randomize(self, num_boxes=4, agent_name=None, target_name=None):
+    """Randomizes the current game.
+
+    TODO: Add wall randomization
+
+    Args:
+      num_boxes: Number of boxes to add.
+                 Must be < total number of cells in the grid - 2
+      agent_name: Tag to give to the agent (diamond shape)
+      target_name: Tag to give to the target (circle shape)
+    """
     self.clear_canvas()
-    self.num_boxes = num_boxes
     if (num_boxes + 2) > (self.rows * self.cols):
       raise ValueError(f'Cannot initialize game with {num_boxes} boxes in a ' \
                        f'grid of size {self.rows} x {self.cols}')
@@ -86,6 +133,7 @@ class World(tk.Tk):
     target_color_idx = random.randint(0, num_boxes-1)
     self.add_circle((row, col), colors[target_color_idx], offset_in=25,
                     tag=self.target_name)
+    self.num_boxes = num_boxes
 
   def add_wall(self, start_row, end_row, start_col, end_col):
     """Adds a wall given start and end coordinates.
@@ -106,19 +154,19 @@ class World(tk.Tk):
     """
     return _wall(self, start_row, end_row, start_col, end_col)
 
-  def add_vwall(self, col, row, length):
+  def add_vwall(self, row, col, length):
     """Adds a vertical wall given the starting column and row, and the length.
 
     Note: The length can be negative
     """
-    return _vwall(self, col, row, length)
+    return _vwall(self, row, col, length)
 
-  def add_hwall(self, col, row, length):
+  def add_hwall(self, row, col, length):
     """Adds a horizontal wall given the starting column and row, and the length.
 
     Note: The length can be negative
     """
-    return _hwall(self, col, row, length)
+    return _hwall(self, row, col, length)
 
   def adjacent_cells_walled(self, cell1, cell2):
     """Checks if there is a wall between two cells."""
