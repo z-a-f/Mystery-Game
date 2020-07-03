@@ -63,11 +63,14 @@ class Agent(object):
     """
     reward = 0
     won = False
+    # TODO: This might have a bug on how it gets the rewards from the tags.
     for tag in list(self.movement_tags):
       tag_reward, tag_won = self._action_on_tag(tag, value)
       if tag == self.name:
-        reward =tag_reward
-        won = tag_won
+        reward = tag_reward
+      won = won or tag_won
+      if won:
+        break
     self.world.update_score(reward)
     if won:
       self.world.randomize()
