@@ -2,8 +2,10 @@ from .movement import Direction, attach_UDLR_to_tags
 from ._env_tag_defs import tags_in_cell
 
 class Agent(object):
-  def __init__(self, world, rewards=None):
+  def __init__(self, world, rewards=None, view_distance=0):
     """Simple agent to interact with the mystery game world
+
+    TODO: Add view distance and ability to return everything is within view_dist
 
     Args:
       world: world instance
@@ -20,6 +22,7 @@ class Agent(object):
     self.world = world
     self.name = self.world.agent_name
     self.target = self.world.target_name
+    self.view_distance = view_distance
 
     self.movement_tags = set([self.name])
     self.has_target = False
