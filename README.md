@@ -1,5 +1,8 @@
 # Mystery Game
 
+**Credit goes to** the [Udacity RL course](https://classroom.udacity.com/courses/ud600).
+The game was shown in one of the lectures, but I didn't find the source code for the game, so...
+
 The game starts in a grid, but the goal of the game is not clear.
 Neither are the controls.
 The only thing that is known is that the game is controlled using numbers 1 through 6.
