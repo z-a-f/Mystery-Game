@@ -3,6 +3,20 @@ from ._env_tag_defs import tags_in_cell
 
 class Agent(object):
   def __init__(self, world, rewards=None):
+    """Simple agent to interact with the mystery game world
+
+    Args:
+      world: world instance
+      rewards: a dictionary for the rewards.
+               If the action is not changed, the keys are expected to be:
+               - move
+               - pick_target
+               - pick_no_target
+               - drop_target_no_win
+               - drop_target_win
+               - drop_no_target
+               - wrong_action
+    """
     self.world = world
     self.name = self.world.agent_name
     self.target = self.world.target_name
@@ -34,6 +48,7 @@ class Agent(object):
     self.world.bind(f'<KP_{key}>', callback)
 
   def check_if_over(self):
+    """Checks if the game is over."""
     if self.has_target:
       return False
     target_info = self.world.objects[self.target]
@@ -42,10 +57,14 @@ class Agent(object):
     return box_location == tuple(target_info[2])
 
   def action(self, value):
+    """Takes a velue and performs an action.
+
+    This action is performed on all the tags in the `self.movement_tags`.
+    """
     reward = 0
     won = False
     for tag in list(self.movement_tags):
-      tag_reward, tag_won = self.action_on_tag(tag, value)
+      tag_reward, tag_won = self._action_on_tag(tag, value)
       if tag == self.name:
         reward =tag_reward
         won = tag_won
@@ -53,7 +72,8 @@ class Agent(object):
     if won:
       self.world.randomize()
 
-  def action_on_tag(self, tag, value):
+  def _action_on_tag(self, tag, value):
+    """Implementation of the actions bassed on values."""
     won = False
     value = int(value)
     if value == 1:
