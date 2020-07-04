@@ -1,6 +1,6 @@
 from .direction import Direction
 from .movement import attach_UDLR_to_tags
-from ._env_tag_defs import tags_in_cell
+from ._tag_defs import tags_in_cell
 
 class Agent(object):
   def __init__(self, world, rewards=None, view_distance=0):

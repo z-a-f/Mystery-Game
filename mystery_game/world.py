@@ -1,11 +1,11 @@
 import random
 import tkinter as tk
 
-from ._env_object_defs import _box, _circle, _diamond
-from ._env_tag_defs import _move, _teleport
-from ._env_wall_defs import _wall, _vwall, _hwall
-from ._env_wall_defs import _adjacent_cells_walled
-from ._env_wall_defs import _is_hwall_between, _is_vwall_between
+from ._object_defs import _box, _circle, _diamond
+from ._tag_defs import _move, _teleport
+from ._wall_defs import _wall, _vwall, _hwall
+from ._wall_defs import _adjacent_cells_walled
+from ._wall_defs import _is_hwall_between, _is_vwall_between
 
 from .cell import Cell
 from .color import Color
