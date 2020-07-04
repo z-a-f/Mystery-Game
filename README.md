@@ -57,3 +57,9 @@ For RL use, send values to `agent.Agent.action` method to control the agent in t
 - `direction.Direction` -- Data structure that defines the directions
 - `movement` -- functions to control movement.
   This also includes functions that attach keyboard to the tag control.
+
+## TODO
+
+- [ ] Factor out the score into the agent
+- [ ] Use cells to store information about objects
+- [ ] Rewrite the world to only work with grid off cell objects
