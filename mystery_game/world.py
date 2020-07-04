@@ -2,6 +2,7 @@ import random
 import tkinter as tk
 
 from .color import Color
+from .direction import Direction
 from ._env_object_defs import _box, _circle, _diamond
 from ._env_tag_defs import _move, _teleport
 from ._env_wall_defs import _wall, _vwall, _hwall
@@ -15,6 +16,7 @@ class World(tk.Tk):
   Class members:
     kPointsPerGrid: Number of points per grid width/height
     kWindowTitle: Title of the Tk window
+    kBackgroundColor: Background color for the Tk windo
 
   Instance members:
     rows: Number of rows in the grid
@@ -40,20 +42,20 @@ class World(tk.Tk):
   """
   kPointsPerGrid = 100
   kWindowTitle = 'Mystery Game'
+  kBackgroundColor = 'white'
 
-  def __init__(self, h, w, bg='white'):
+  def __init__(self, h, w):
     """Entry point for the world generation.
 
     Args:
       h, w: Height and width of the canvas in number of cells
-      bg: Background colorof the canvas
     """
     super(World, self).__init__()
     self.rows = w
     self.cols = h
     self.height = self.cols * self.kPointsPerGrid
     self.width = self.rows * self.kPointsPerGrid
-    self.canvas = tk.Canvas(self, height=self.height, width=self.width, bg=bg)
+    self.canvas = tk.Canvas(self, height=self.height, width=self.width, bg=kBackgroundColor)
     self.canvas.pack(fill=tk.BOTH, expand=True)
     self.canvas.bind('<Configure>', self._create_grid)
     self.resizable(0, 0)
@@ -138,19 +140,19 @@ class World(tk.Tk):
   def add_wall(self, start_row, end_row, start_col, end_col):
     """Adds a wall given start and end coordinates.
 
-    Note: The locations must be the coordinates of the walls.
-    For example here are the wall coordinates
+    Note: The locations must be the coordinates of the walls (not cells).
+    For example here are the wall coordinates and the cell coordinates
 
-        0    1    2    3
-      0 +----+----+----+
-        |    |    |    |
-      1 +----+----+----+
-        |    |    |    |
-      2 +----+----+----+
-        |    |    |    |
-      3 +----+----+----+
-        |    |    |    |
-      4 +----+----+----+
+        0     1     2     3
+      0 +-----+-----+-----+
+        | 0,0 | 0,1 | 0,2 |
+      1 +-----+-----+-----+
+        | 1,0 | 1,1 | 1,2 |
+      2 +-----+-----+-----+
+        | 2,0 | 2,1 | 2,2 |
+      3 +-----+-----+-----+
+        | 3,0 | 3,1 | 3,2 |
+      4 +-----+-----+-----+
     """
     return _wall(self, start_row, end_row, start_col, end_col)
 

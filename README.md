@@ -54,5 +54,6 @@ For RL use, send values to `agent.Agent.action` method to control the agent in t
 - `agent.Agent` -- a simple agent that can interact with the world.
   Defines the `action` method that takes a numeric input and performs an action.
 - `color.Color` -- Data structure that defines the colors
-- `movement` -- functions and data structures to control movement.
+- `direction.Direction` -- Data structure that defines the directions
+- `movement` -- functions to control movement.
   This also includes functions that attach keyboard to the tag control.

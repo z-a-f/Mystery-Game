@@ -3,7 +3,8 @@ import argparse
 from mystery_game.agent import Agent
 from mystery_game.world import World
 from mystery_game.color import Color
-from mystery_game.movement import Direction, attach_UDLR_to_tags
+from mystery_game.direction import Direction
+from mystery_game.movement import attach_UDLR_to_tags
 
 def parse_args():
   def process_x_list(lst):

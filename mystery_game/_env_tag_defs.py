@@ -1,6 +1,6 @@
 """Definitions for manipulating the tags."""
 
-from .movement import Direction
+from .direction import Direction
 
 def _move(world, tag, direction):
   current_cell = world.objects.get(tag, None)

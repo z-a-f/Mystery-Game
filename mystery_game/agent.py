@@ -1,4 +1,5 @@
-from .movement import Direction, attach_UDLR_to_tags
+from .direction import Direction
+from .movement import attach_UDLR_to_tags
 from ._env_tag_defs import tags_in_cell
 
 class Agent(object):
