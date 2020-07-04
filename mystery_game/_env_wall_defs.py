@@ -36,7 +36,7 @@ def _vwall(world, row, col, length):
   if end_row > world.rows:
     end_row = world.rows
 
-  return world.add_wall(start_row, end_row, start_col, end_col)
+  return _wall(world, start_row, end_row, start_col, end_col)
 
 def _hwall(world, row, col, length):
   start_row = row
@@ -50,7 +50,7 @@ def _hwall(world, row, col, length):
   if end_col > world.cols:
     end_col = world.cols
 
-  return world.add_wall(start_row, end_row, start_col, end_col)
+  return _wall(world, start_row, end_row, start_col, end_col)
 
 def _adjacent_cells_walled(world, cell1, cell2):
   if (cell1[0] == cell2[0]) and (cell1[1] == cell2[1]):
@@ -59,9 +59,9 @@ def _adjacent_cells_walled(world, cell1, cell2):
          'Cells must be adjacent to check if walled'
 
   if cell1[0] == cell2[0]:  # Vertical adjacency, check horizontal lines
-    return world.is_hwall_between(cell1, cell2)
+    return _is_hwall_between(world, cell1, cell2)
   else:  # Horizontal adjacency, check vertical lines
-    return world.is_vwall_between(cell1, cell2)
+    return _is_vwall_between(world, cell1, cell2)
 
 def _is_hwall_between(world, cell1, cell2):
   if cell1[1] > cell2[1]:

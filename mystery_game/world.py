@@ -1,13 +1,15 @@
 import random
 import tkinter as tk
 
-from .color import Color
-from .direction import Direction
 from ._env_object_defs import _box, _circle, _diamond
 from ._env_tag_defs import _move, _teleport
 from ._env_wall_defs import _wall, _vwall, _hwall
 from ._env_wall_defs import _adjacent_cells_walled
 from ._env_wall_defs import _is_hwall_between, _is_vwall_between
+
+from .cell import Cell
+from .color import Color
+from .direction import Direction
 
 
 class World(tk.Tk):
@@ -55,7 +57,8 @@ class World(tk.Tk):
     self.cols = h
     self.height = self.cols * self.kPointsPerGrid
     self.width = self.rows * self.kPointsPerGrid
-    self.canvas = tk.Canvas(self, height=self.height, width=self.width, bg=kBackgroundColor)
+    self.canvas = tk.Canvas(self, height=self.height, width=self.width,
+                            bg=self.kBackgroundColor)
     self.canvas.pack(fill=tk.BOTH, expand=True)
     self.canvas.bind('<Configure>', self._create_grid)
     self.resizable(0, 0)
@@ -71,6 +74,9 @@ class World(tk.Tk):
     self.num_boxes = None
     self.agent_name = None
     self.target_name = None
+
+    # Create a cell grid map
+    self.cell_grid = [ [ Cell(row, col) for col in range(self.cols) ] for row in range(self.rows) ]
 
   def _create_grid(self, event=None):
     self.canvas.delete('grid_line') # Will only remove the grid_line
